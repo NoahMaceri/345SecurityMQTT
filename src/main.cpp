@@ -1,8 +1,9 @@
 #include "digitalDecoder.h"
 #include "analogDecoder.h"
 #include "mqtt.h"
-#include "mqtt_config.h"
+#include "mqtt_values.h"
 
+#include <yaml-cpp/yaml.h>
 #include <rtl-sdr.h>
 
 #include <iostream>
@@ -30,27 +31,12 @@ void usage(const char *argv0)
 
 int main(int argc, char ** argv)
 {
-    const char *mqttHost = std::getenv("MQTT_HOST");
-    if ((mqttHost == NULL) || (std::char_traits<char>::length(mqttHost) == 0))
-    {
-        mqttHost = MQTT_HOST;
-    }
-    const char *mqttPortStr = std::getenv("MQTT_PORT");
-    int mqttPort = MQTT_PORT;
-    if ((mqttPortStr) && (std::char_traits<char>::length(mqttPortStr) > 0))
-    {
-        mqttPort = std::stoi(mqttPortStr);
-    }
-    const char *mqttUsername = std::getenv("MQTT_USERNAME");
-    if ((mqttUsername == NULL) || (std::char_traits<char>::length(mqttUsername) == 0))
-    {
-        mqttUsername = MQTT_USERNAME;
-    }
-    const char *mqttPassword = std::getenv("MQTT_PASSWORD");
-    if ((mqttPassword == NULL) || (std::char_traits<char>::length(mqttPassword) == 0))
-    {
-        mqttPassword = MQTT_PASSWORD;
-    }
+    YAML::Node config = YAML::LoadFile("config.yaml");
+
+    const char *mqttHost = config["mqtt"]["host"].as<std::string>().c_str();
+    int mqttPort = config["mqtt"]["port"].as<int>();
+    const char *mqttUsername = config["mqtt"]["username"].as<std::string>().c_str();
+    const char *mqttPassword = config["mqtt"]["password"].as<std::string>().c_str();
     
     Mqtt mqtt = Mqtt("sensors345", mqttHost, mqttPort, mqttUsername, mqttPassword, "security/sensors345/rx_status", "FAILED");
     DigitalDecoder dDecoder = DigitalDecoder(mqtt);
