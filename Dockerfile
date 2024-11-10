@@ -19,6 +19,7 @@ RUN apt-get -q update && apt-get install -yq --no-install-recommends \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /345tomqtt/build/345toMqtt /345toMqtt
+COPY ./config.yaml /config.yaml
 
 # Run our binary on container startup
 CMD ./345toMqtt
