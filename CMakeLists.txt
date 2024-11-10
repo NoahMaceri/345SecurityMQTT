@@ -19,7 +19,7 @@ add_executable(${PROJECT_NAME}
 	src/digitalDecoder.h
 	src/mqtt.cpp
 	src/mqtt.h
-	src/mqtt_config.h
+	src/mqtt_values.h
 	)
 
 target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto PkgConfig::RTL-SDR yaml-cpp::yaml-cpp)
