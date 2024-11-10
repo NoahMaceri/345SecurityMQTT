@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 # Moquittopp
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(Mosquitto IMPORTED_TARGET libmosquittopp REQUIRED)
+pkg_check_modules(RTL-SDR IMPORTED_TARGET librtlsdr REQUIRED)
 
 add_executable(${PROJECT_NAME} 
 	src/main.cpp
@@ -17,4 +18,4 @@ add_executable(${PROJECT_NAME}
 	src/mqtt_config.h
 	)
 
-target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto)
+target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto PkgConfig::RTL-SDR)
