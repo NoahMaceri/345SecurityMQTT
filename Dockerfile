@@ -1,5 +1,4 @@
-ARG ARCH=library
-FROM $ARCH/debian:stretch AS build
+FROM ubuntu:22.04 AS build
 
 # Install build tools and remove apt-cache afterwards
 RUN apt-get -q update && apt-get install -yq --no-install-recommends \
@@ -7,22 +6,19 @@ RUN apt-get -q update && apt-get install -yq --no-install-recommends \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Switch into our apps working directory
-WORKDIR /usr/src/app/345SecurityMQTT/src
+WORKDIR /build
 
-COPY . /usr/src/app/345SecurityMQTT
-WORKDIR /usr/src/app/345SecurityMQTT/src
-RUN ./build.sh
+COPY . /build
 
-FROM $ARCH/debian:stretch
+RUN cmake -B build -S . && cmake --build build
+
+FROM ubuntu:22.04
 
 RUN apt-get -q update && apt-get install -yq --no-install-recommends \
 	librtlsdr-dev rtl-sdr libmosquittopp-dev \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /usr/src/app/345SecurityMQTT/src/345toMqtt 345toMqtt
-
-#switch on systemd init system in container
-ENV INITSYSTEM on
+COPY --from=build /build/345toMqtt 345toMqtt
 
 # Run our binary on container startup
 CMD ./345toMqtt

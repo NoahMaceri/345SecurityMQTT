@@ -1,15 +1,6 @@
 # HoneywellSecurityMQTT
 
----
-**NOTE**
-
-I sunset the use of the 345MHz sensors in my setup. And thus, this code base has reached the end of it's useful life for me. It worked amazingly well during the time it was running.
-
----
-
-This project is based on fusterjj's HonewellSecurityMQTT project which was based on jhaines0's HoneywellSecurity.  It listen's for events from 345MHz security sensors and sends messages via MQTT.  
-
-I attempted for simple event/message translation, but some state/persistance was required to acheive debouncing of signals.
+This project is based on fusterjj's HonewellSecurityMQTT project which was based on jhaines0's HoneywellSecurity. It listen's for events from 345MHz security sensors and sends messages via MQTT.  
 
 
 ## Features
@@ -17,8 +8,8 @@ I attempted for simple event/message translation, but some state/persistance was
  - Requires no per-sensor configuration
  - Decodes sensor status such as tamper and low battery
  - Reports alarm and sensor status to an MQTT broker
- - **NEW** Support for multisensors.  For example, a water sensor with high-temp and low-temp alerts.
- - **NEW** Support for some 345 keyfobs and 345 keypads.
+ - Support for multisensors.  For example, a water sensor with high-temp and low-temp alerts.
+ - Support for some 345 keyfobs and 345 keypads.
 
 ## Requirements
  - RTL-SDR USB adapter; commonly available on Amazon
