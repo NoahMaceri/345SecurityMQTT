@@ -3,7 +3,8 @@ project(345toMqtt)
 set(CMAKE_CXX_STANDARD 11)
 
 # Moquittopp
-find_library(mosquittopp REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(Mosquitto IMPORTED_TARGET libmosquittopp REQUIRED)
 
 add_executable(${PROJECT_NAME} 
 	src/main.cpp
@@ -16,4 +17,4 @@ add_executable(${PROJECT_NAME}
 	src/mqtt_config.h
 	)
 
-target_link_libraries(${PROJECT_NAME} mosquittopp)
+target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto)
