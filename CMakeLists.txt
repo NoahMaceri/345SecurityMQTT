@@ -11,6 +11,8 @@ pkg_check_modules(RTL-SDR IMPORTED_TARGET librtlsdr REQUIRED)
 # YAML-CPP
 find_package(yaml-cpp REQUIRED)
 
+include_directories(${YAML_CPP_INCLUDE_DIRS})
+
 add_executable(${PROJECT_NAME} 
 	src/main.cpp
 	src/analogDecoder.cpp
@@ -22,4 +24,4 @@ add_executable(${PROJECT_NAME}
 	src/mqtt_values.h
 	)
 
-target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto PkgConfig::RTL-SDR yaml-cpp::yaml-cpp)
+target_link_libraries(${PROJECT_NAME} PkgConfig::Mosquitto PkgConfig::RTL-SDR ${YAML_CPP_LIBRARIES})
